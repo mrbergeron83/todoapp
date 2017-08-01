@@ -22,9 +22,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
+
 <link rel="lazy-import" href="my-deleted.html">
 <link rel="lazy-import" href="my-done.html">
-<link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
 <link rel="lazy-import" href="my-todolist.html">
 
@@ -162,6 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           null,
           this._showPage404.bind(this),
           true);
+          this.$.Todolist.putResponse();
       }
 
       _showPage404() {

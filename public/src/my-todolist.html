@@ -56,6 +56,15 @@
     class TodoList extends Polymer.Element {
       static get is() { return 'my-todolist'; }
 
+      static get properties(){
+        return {
+          active: {
+            type: Boolean,
+            observer: '_urlChange'
+          }
+        }
+      }
+
       ready() {
         super.ready();
         this.todoItem = { "item": "" };
