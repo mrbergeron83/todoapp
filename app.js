@@ -9,7 +9,7 @@ var express = require('express'),
 
 
 
-var promise = mongoose.connect(config.url, {
+var promise = mongoose.connect(process.env.URI, {
     useMongoClient: true,
 });
 router.use(bodyParser.urlencoded({
@@ -31,6 +31,6 @@ app.get('/deleted', function (req, res) {
     res.sendFile('/public/index.html', { root: '.' });
 });
 
-app.listen(config.port, config.ip, function () {
+app.listen(config.port, function () {
     console.log("server running on port " + config.port);
 });
