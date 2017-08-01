@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="my-elements.html">
+
+<dom-module id="my-deleted">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      span {
+        color: red;
+        text-decoration: line-through orange;
+      }
+      paper-icon-button {
+        color: lightgreen;
+      }
+    </style>
+
+    <iron-ajax id="getTodo" url="/todos" method="get" params='' handle-as="json" last-response="{{response}}" auto></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body='' content-type="application/json" on-response="putResponse"></iron-ajax>
+
+    <div class="card">
+      <template is="dom-repeat" items="{{response}}">
+        <template is="dom-if" if='{{item.deleted}}'>
+          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+          <paper-icon-button id="delete" icon="refresh" name="{{item.id}}" on-click="unDelete"></paper-icon-button>
+          <span class$="item-done-{{item.done}}">
+            {{item.item}}           
+          </span>
+          <div>
+        </template>
+      </template>
+      </div>
+  </template>
+
+  <script>
+    class MyDeleted extends Polymer.Element {
+      static get is() { return 'my-deleted'; }
+
+      putDone(e) {
+        var model = e.model;
+        this.$.putTodo.body = e.model.item;
+        this.$.putTodo.generateRequest();
+      }
+
+      unDelete(e) {
+        var model = e.model;
+        model.item.deleted = false;
+        this.$.putTodo.body = e.model.item;
+        this.$.putTodo.generateRequest();
+      }
+
+      putResponse() {
+        this.$.getTodo.generateRequest();
+      }
+    }
+
+    window.customElements.define(MyDeleted.is, MyDeleted);
+  </script>
+</dom-module>
