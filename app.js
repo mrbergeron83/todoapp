@@ -9,7 +9,7 @@ var express = require('express'),
 
 
 
-var promise = mongoose.connect(process.env.URI, {
+var promise = mongoose.connect(config.url, {
     useMongoClient: true,
 });
 router.use(bodyParser.urlencoded({

@@ -24,29 +24,29 @@
       
     </style>
 
-    <iron-ajax id="getTodo" url="/todos" method="get" params='' handle-as="json" last-response="{{response}}" auto></iron-ajax>
-    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body={{todoItem}} content-type="application/json"></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body='' content-type="application/json" on-response="putResponse"></iron-ajax>
+    <iron-ajax id="getTodo" url="/todos" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json"></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body="" content-type="application/json" on-response="putResponse"></iron-ajax>
 
     <div class="card">
       <div>
         <paper-input id="submitTodo" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-input>
       </div>
       <div>
-        <paper-button on-tap="handleClick" toggles raised>Submit</paper-button>
+        <paper-button on-tap="handleClick" toggles="" raised="">Submit</paper-button>
       </div>
     </div>
 
     <div class="card">
       <template is="dom-repeat" items="{{response}}">
-        <template is="dom-if" if='{{!item.deleted}}'>
+        <template is="dom-if" if="{{!item.deleted}}">
           <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
           <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-click="deleteTodo"></paper-icon-button>
           <span class$="item-done-{{item.done}}">
             {{item.item}}           
           </span>
           <div>
-        </template>
+        </div></template>
       </template>
       </div>
 
