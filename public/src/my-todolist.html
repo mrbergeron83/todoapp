@@ -14,19 +14,13 @@
       paper-icon-button {
         color: brown;
       }
-
-
-
-      #itemDiv {
-        height: 100px;
-      }
-
-      
     </style>
 
     <iron-ajax id="getTodo" url="/todos" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
     <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json"></iron-ajax>
     <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body="" content-type="application/json" on-response="putResponse"></iron-ajax>
+
+   
 
     <div class="card">
       <div>
@@ -42,10 +36,13 @@
         <template is="dom-if" if="{{!item.deleted}}">
           <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
           <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-click="deleteTodo"></paper-icon-button>
+          
           <span class$="item-done-{{item.done}}">
             {{item.item}}           
           </span>
+          <div class="date">{{item.date}}</div>
           <div>
+            <hr>
         </div></template>
       </template>
       </div>
@@ -56,14 +53,14 @@
     class TodoList extends Polymer.Element {
       static get is() { return 'my-todolist'; }
 
-    
+
 
       ready() {
         super.ready();
         this.todoItem = { "item": "" };
-
       }
-
+      
+       
       handleClick() {
         this.$.postTodo.generateRequest();
         this.$.getTodo.generateRequest();
@@ -86,7 +83,11 @@
         this.$.putTodo.generateRequest();
       }
 
-    } 
+      compute() {
+        console.log(this.refresh);
+      }
+
+    }
 
 
 

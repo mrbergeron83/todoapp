@@ -22,7 +22,8 @@
     "iron-form": "polymerelements/iron-form#^2.0.0",
     "paper-button": "polymerelements/paper-button#^2.0.0",
     "paper-input": "polymerelements/paper-input#^2.0.1",
-    "paper-checkbox": "polymerelements/paper-checkbox#^2.0.1"
+    "paper-checkbox": "polymerelements/paper-checkbox#^2.0.1",
+    "sw-toolbox": "^3.6.1"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.1",
