@@ -5,34 +5,57 @@
 <dom-module id="my-deleted">
   <template>
     <style include="shared-styles">
-      :host {
+       :host {
         display: block;
 
         padding: 10px;
       }
-      span {
+
+      #deletedList {
         color: red;
         text-decoration: line-through orange;
       }
-      paper-icon-button {
+      #deletedTodoSpan {
+        margin-left: 145px;
+      }
+
+      #unDelete {
         color: lightgreen;
       }
     </style>
 
-    <iron-ajax id="getTodo" url="/todos" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body="" content-type="application/json" on-response="putResponse"></iron-ajax>
+    <iron-ajax id="getDeletedTodo" url="/todos/deleted" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="destroyTodo" url="/todos/destroy" method="DELETE" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
-      <template is="dom-repeat" items="{{response}}">
-        <template is="dom-if" if="{{item.deleted}}">
-          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-          <paper-icon-button id="delete" icon="refresh" name="{{item.id}}" on-click="unDelete"></paper-icon-button>
-          <span class$="item-done-{{item.done}}">
+      <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
+    </div>
+
+    <div class="card">
+      <div id="todoHeader">
+        <span>Done</span>
+        <span id="deletedTodoSpan">Todo</span>
+        <span id="dateSpan">
+           Date
+           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>           
+        </span>
+      </div>
+
+      <hr>
+      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+
+        <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+        <paper-icon-button id="unDelete" icon="refresh" name="{{item.id}}" on-tap="unDelete"></paper-icon-button>
+        <paper-button id="destroy" icon="delete" name="{{item.id}}" on-tap="destroyTodoItem">DESTROY</paper-button>
+
+        <span id="deletedList" class$="item-done-{{item.done}}">
             {{item.item}}           
           </span>
-          <div>
-        </div></template>
-      </template>
+        <div class="date">{{item.date}}</div>
+        <div>
+          <hr>
+      </div></template>
       </div>
   </template>
 
@@ -53,8 +76,55 @@
         this.$.putTodo.generateRequest();
       }
 
-      putResponse() {
-        this.$.getTodo.generateRequest();
+      destroyTodoItem(e) {
+        var model = e.model;
+        this.$.destroyTodo.body = e.model.item;
+        this.$.destroyTodo.generateRequest();
+      }
+
+      init() {
+        this.$.getDeletedTodo.generateRequest();
+      }
+      searchFilter(string) {
+        if (!string) {
+          return null;
+        } else {
+          string = string.toLowerCase();
+          return function (item) {
+            var itemString = item.item.toLowerCase();
+            return (itemString.indexOf(string) != -1);
+          };
+        }
+      }
+
+      sortClick() {
+        if (this.$.repeatTemplate.sort === "computeSorta" && this.$.sortButton.icon === "arrow-drop-down") {
+          this.$.repeatTemplate.sort = "computeSortb";
+          this.$.sortButton.icon = "arrow-drop-up"
+        } else {
+          this.$.repeatTemplate.sort = "computeSorta";
+          this.$.sortButton.icon = "arrow-drop-down";
+        }
+      }
+
+      computeSorta(a, b) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
+      }
+
+      computeSortb(b, a) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
       }
     }
 

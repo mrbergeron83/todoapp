@@ -12,26 +12,44 @@
       }
       
     </style>
-    <iron-ajax id="getTodo" url="/todos" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body="" content-type="application/json" on-response="putResponse"></iron-ajax>
+    <iron-ajax id="getDoneTodo" url="/todos/done" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
-      <template is="dom-repeat" items="{{response}}">
-        <template is="dom-if" if="{{item.done}}">
-          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-          <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-click="deleteTodo"></paper-icon-button>
-          <span class$="item-done-{{item.done}}">
-            {{item.item}}           
-          </span>
-          <div>
-        </div></template>
-      </template>
+      <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
+      <paper-button toggles="" raised="">Search</paper-button>
+    </div>
+
+    <div class="card">
+      <div id="todoHeader">
+        <span>Done</span>
+        <span id="todoSpan">Todo</span>
+        <span id="dateSpan">
+           Date
+           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>           
+        </span>
       </div>
 
+      <hr>
+      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+        
+          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+        <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+
+        <span class$="item-done-{{item.done}}">
+            {{item.item}}           
+          </span>
+        <div class="date">{{item.date}}</div>
+        <div>
+          <hr>
+        </div></template>
+      </div></template>
+      
 
 
 
-  </template>
+
+  
 
   <script>
     class MyDone extends Polymer.Element {
@@ -43,10 +61,60 @@
         this.$.putTodo.generateRequest();
       }
 
-      putResponse() {
-        this.$.getTodo.generateRequest();
+      deleteTodo(e) {
+        var model = e.model;
+        model.item.deleted = true;
+        this.$.putTodo.body = e.model.item;
+        this.$.putTodo.generateRequest();
+      }
+
+      init() {
+        this.$.getDoneTodo.generateRequest();
+      }
+
+      searchFilter(string) {
+        if (!string) {
+          return null;
+        } else {
+          string = string.toLowerCase();
+          return function (item) {
+            var itemString = item.item.toLowerCase();
+            return (itemString.indexOf(string) != -1);
+          };
+        }
+      }
+
+      sortClick() {
+        if (this.$.repeatTemplate.sort === "computeSorta" && this.$.sortButton.icon === "arrow-drop-down") {
+          this.$.repeatTemplate.sort = "computeSortb";
+          this.$.sortButton.icon = "arrow-drop-up"
+        } else {
+          this.$.repeatTemplate.sort = "computeSorta";
+          this.$.sortButton.icon = "arrow-drop-down";
+        }
+      }
+
+      computeSorta(a, b) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
+      }
+
+      computeSortb(b, a) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
       }
     }
+    
 
     window.customElements.define(MyDone.is, MyDone);
   </script>

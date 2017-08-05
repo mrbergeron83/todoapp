@@ -9,42 +9,48 @@
         display: block;
 
         padding: 10px;
-      }
-
-      paper-icon-button {
-        color: brown;
-      }
+      }      
     </style>
 
-    <iron-ajax id="getTodo" url="/todos" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json"></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos" method="PUT" handles-as="json" body="" content-type="application/json" on-response="putResponse"></iron-ajax>
-
-   
+    <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
-      <div>
-        <paper-input id="submitTodo" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-input>
+      <paper-toast id="toast" class="fit-top toastie" text="Be more specific...(Min 5 char.)"></paper-toast>
+      <paper-toast id="toast2" class="fit-top toastie" text="Be less specific...(Max 50 char.)"></paper-toast>
+      <div id="submitContainer">
+        
+        <paper-input id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-input>
       </div>
       <div>
         <paper-button on-tap="handleClick" toggles="" raised="">Submit</paper-button>
       </div>
+      <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
     </div>
 
     <div class="card">
-      <template is="dom-repeat" items="{{response}}">
-        <template is="dom-if" if="{{!item.deleted}}">
-          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-          <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-click="deleteTodo"></paper-icon-button>
-          
-          <span class$="item-done-{{item.done}}">
+      <div id="todoHeader">
+        <span>Done</span>
+        <span id="todoSpan">Todo</span>
+        <span id="dateSpan">
+           Date
+           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>           
+        </span>
+      </div>
+
+      <hr>
+
+      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+        <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+        <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+        <span class$="item-done-{{item.done}}">
             {{item.item}}           
           </span>
-          <div class="date">{{item.date}}</div>
-          <div>
-            <hr>
-        </div></template>
-      </template>
+        <div class="date">{{item.date}}</div>
+        <div>
+          <hr>
+      </div></template>
       </div>
 
   </template>
@@ -53,27 +59,28 @@
     class TodoList extends Polymer.Element {
       static get is() { return 'my-todolist'; }
 
-
-
       ready() {
         super.ready();
         this.todoItem = { "item": "" };
       }
-      
-       
+
       handleClick() {
-        this.$.postTodo.generateRequest();
-        this.$.getTodo.generateRequest();
+        if (this.$.submitTodo.value.length < 5) {
+          this.$.toast.fitInto = this.$.submitContainer;
+          this.$.toast.open();
+        } else if (this.$.submitTodo.value.length > 50){
+          this.$.toast2.fitInto = this.$.submitContainer;
+          this.$.toast2.open();
+        } else {
+          this.$.postTodo.generateRequest();
+          this.$.submitTodo.value = "";
+        }
       }
 
       putDone(e) {
         var model = e.model;
         this.$.putTodo.body = e.model.item;
         this.$.putTodo.generateRequest();
-      }
-
-      putResponse() {
-        this.$.getTodo.generateRequest();
       }
 
       deleteTodo(e) {
@@ -83,16 +90,52 @@
         this.$.putTodo.generateRequest();
       }
 
-      compute() {
-        console.log(this.refresh);
+      init() {
+        this.$.getUndeletedTodo.generateRequest();
       }
 
+      searchFilter(string) {
+        if (!string) {
+          return null;
+        } else {
+          string = string.toLowerCase();
+          return function (item) {
+            var itemString = item.item.toLowerCase();
+            return (itemString.indexOf(string) != -1);
+          };
+        }
+      }
+
+      sortClick() {
+        if (this.$.repeatTemplate.sort === "computeSorta" && this.$.sortButton.icon === "arrow-drop-down") {
+          this.$.repeatTemplate.sort = "computeSortb";
+          this.$.sortButton.icon = "arrow-drop-up"
+        } else {
+          this.$.repeatTemplate.sort = "computeSorta";
+          this.$.sortButton.icon = "arrow-drop-down";
+        }
+      }
+
+      computeSorta(a, b) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
+      }
+
+      computeSortb(b, a) {
+        if (a.date > b.date) {
+          return -1;
+        }
+        if (a.date < b.date) {
+          return 1;
+        }
+        return 0;
+      }
     }
-
-
-
-
-
     window.customElements.define(TodoList.is, TodoList);
   </script>
 </dom-module>

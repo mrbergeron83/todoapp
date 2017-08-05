@@ -24,9 +24,25 @@ router.post('/', function (req, res) {
         });
 });
 
-// RETURNS ALL THE TODOS IN THE DATABASE
-router.get('/', function (req, res) {
-    Todo.find({}, function (err, todos) {
+// RETURNS ALL THE UNDELETED TODOS IN THE DATABASE
+router.get('/undeleted', function (req, res) {
+    Todo.find({"deleted": false, "done": false}, function (err, todos) {
+        if (err) return res.status(500).send("There was a problem finding the todos.");
+        res.status(200).send(todos);
+    });
+});
+
+// RETURNS ALL THE DONE TODOS IN THE DATABASE
+router.get('/done', function (req, res) {
+    Todo.find({"done": true, "deleted": false}, function (err, todos) {
+        if (err) return res.status(500).send("There was a problem finding the todos.");
+        res.status(200).send(todos);
+    });
+});
+
+// RETURNS ALL THE DELETED TODOS IN THE DATABASE
+router.get('/deleted', function (req, res) {
+    Todo.find({"deleted": true}, function (err, todos) {
         if (err) return res.status(500).send("There was a problem finding the todos.");
         res.status(200).send(todos);
     });
@@ -41,16 +57,16 @@ router.get('/:id', function (req, res) {
     });
 });
 
-// DELETES A TODO FROM THE DATABASE
-router.delete('/:id', function (req, res) {
-    Todo.findByIdAndRemove(req.params.id, function (err, todo) {
-        if (err) return res.status(500).send("There was a problem deleting the todo.");
+// DESTROY A TODO FROM THE DATABASE
+router.delete('/destroy', function (req, res) {
+    Todo.findByIdAndRemove(req.body._id, function (err, todo) {
+        if (err) return res.status(500).send("There was a problem destroying the todo.");
         res.status(200).send("todo: " + todo.item + " was deleted.");
     });
 });
 
 // UPDATES A SINGLE TODO IN THE DATABASE
-router.put('/', function (req, res) {
+router.put('/update', function (req, res) {
 
     Todo.findByIdAndUpdate(req.body._id, req.body, {
         new: true
