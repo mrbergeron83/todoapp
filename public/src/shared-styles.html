@@ -43,23 +43,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: line-through;
       }
 
+      .todoItem {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: middle;
+        max-width: 50%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
       .date {
+        display: inline-block;
         float: right;
         margin-top: 20px;
-       
+        font-size: 12px;
+        margin-right: 18px;
       }
+
+      .todoHead {
+        display: inline;
+      }
+
       #todoHeader {
         font-weight: 800;
         height: 30px;
       }
 
-      #dateSpan {
+      #dateDiv {
         float: right;
       }
 
-      #todoSpan {
-        margin-left: 42px;
-        padding-right: 85%;
+      #todoDiv {
+        margin-left: 43px;
       }
 
       #doneBox {
@@ -73,6 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #delete {
         color: brown;
       }
+
       .toastie {
         width: 100%;
         background-color: brown;

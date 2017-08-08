@@ -10,7 +10,6 @@
 
         padding: 10px;
       }
-      
     </style>
     <iron-ajax id="getDoneTodo" url="/todos/done" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
     <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
@@ -22,29 +21,29 @@
 
     <div class="card">
       <div id="todoHeader">
-        <span>Done</span>
-        <span id="todoSpan">Todo</span>
-        <span id="dateSpan">
-           Date
-           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>           
-        </span>
+        <div class="todoHead">Done</div>
+        <div class="todoHead" id="todoDiv">Todo</div>
+        <div class="todoHead" id="dateDiv">
+          Date
+          <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>
+        </div>
+      </div>   
+
+    <hr>
+    <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+
+      <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+      <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+
+      <div class$="item-done-{{item.done}} todoItem">
+        {{item.item}}
       </div>
-
-      <hr>
-      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
-        
-          <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-        <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
-
-        <span class$="item-done-{{item.done}}">
-            {{item.item}}           
-          </span>
-        <div class="date">{{item.date}}</div>
-        <div>
-          <hr>
-        </div></template>
-      </div></template>
-      
+      <div class="date">{{item.date}}</div>
+      <div>
+        <hr>
+    </div></template>
+  </div></template>
+  
 
 
 
@@ -114,7 +113,7 @@
         return 0;
       }
     }
-    
+
 
     window.customElements.define(MyDone.is, MyDone);
   </script>

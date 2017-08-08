@@ -9,7 +9,7 @@
         display: block;
 
         padding: 10px;
-      }      
+      }
     </style>
 
     <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
@@ -20,9 +20,9 @@
       <paper-toast id="toast" class="fit-top toastie" text="Be more specific...(Min 5 char.)"></paper-toast>
       <paper-toast id="toast2" class="fit-top toastie" text="Be less specific...(Max 50 char.)"></paper-toast>
       <div id="submitContainer">
-        
-        <paper-input id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-input>
-      </div>
+
+        <paper-textarea id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here">
+      </paper-textarea></div>
       <div>
         <paper-button on-tap="handleClick" toggles="" raised="">Submit</paper-button>
       </div>
@@ -31,27 +31,31 @@
 
     <div class="card">
       <div id="todoHeader">
-        <span>Done</span>
-        <span id="todoSpan">Todo</span>
-        <span id="dateSpan">
-           Date
-           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>           
-        </span>
+        <div class="todoHead">Done</div>
+        <div class="todoHead" id="todoDiv">Todo</div>
+        <div class="todoHead" id="dateDiv">
+          Date
+          <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>
+        </div>
       </div>
-
       <hr>
+    
 
-      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
-        <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-        <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
-        <span class$="item-done-{{item.done}}">
-            {{item.item}}           
-          </span>
-        <div class="date">{{item.date}}</div>
-        <div>
-          <hr>
-      </div></template>
-      </div>
+
+
+    <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+      <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+      <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+      <div class$="item-done-{{item.done}} todoItem">
+            {{item.item}}          
+          </div>
+         
+      <div class="date">{{item.date}}</div>
+      <div>
+        <hr>
+    </div></template>
+    </div>   
+    
 
   </template>
 
@@ -62,13 +66,13 @@
       ready() {
         super.ready();
         this.todoItem = { "item": "" };
-      }
+      }      
 
       handleClick() {
         if (this.$.submitTodo.value.length < 5) {
           this.$.toast.fitInto = this.$.submitContainer;
           this.$.toast.open();
-        } else if (this.$.submitTodo.value.length > 50){
+        } else if (this.$.submitTodo.value.length > 50) {
           this.$.toast2.fitInto = this.$.submitContainer;
           this.$.toast2.open();
         } else {
