@@ -14,19 +14,19 @@
       
     </style>
 
-    <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json" on-response="init"></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto></iron-ajax>
+    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body={{todoItem}} content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body='' content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
       <paper-toast id="toast" class="fit-top toastie" text="Be more specific...(Min 5 char.)"></paper-toast>
       <paper-toast id="toast2" class="fit-top toastie" text="Be less specific...(Max 50 char.)"></paper-toast>
       <div id="submitContainer">
 
-        <paper-textarea id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here">
-      </paper-textarea></div>
+        <paper-textarea id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-textareat>
+      </div>
       <div>
-        <paper-button on-tap="handleClick" toggles="" raised="">Submit</paper-button>
+        <paper-button on-tap="handleClick" toggles raised>Submit</paper-button>
       </div>
       <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
     </div>

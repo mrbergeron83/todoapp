@@ -25,9 +25,11 @@
       }
     </style>
 
-    <iron-ajax id="getDeletedTodo" url="/todos/deleted" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
-    <iron-ajax id="destroyTodo" url="/todos/destroy" method="DELETE" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="getDeletedTodo" url="/todos/deleted" method="get" params='' handle-as="json" last-response="{{response}}"
+      auto></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body='' content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="destroyTodo" url="/todos/destroy" method="DELETE" handles-as="json" body='' content-type="application/json"
+      on-response="init"></iron-ajax>
 
     <div class="card">
       <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
@@ -35,7 +37,6 @@
 
     <div class="card">
       <div id="todoHeader">
-        <div class="todoHead">Done</div>
         <div class="todoHead" id="todoDiv">Todo</div>
         <div class="todoHead" id="dateSort">
           Date
@@ -48,16 +49,9 @@
       <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
 
         <div id="itemBlock">
-          <div class="iconBlock">
-            <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-          </div>
           <paper-icon-button id="unDelete" icon="refresh" name="{{item.id}}" on-tap="unDelete"></paper-icon-button>
-          <paper-button id="destroy" icon="delete" name="{{item.id}}" on-tap="destroyTodoItem">DESTROY</paper-button>
-
-          <div class="iconBlock">
-            <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
-          </div>
-          <div class$="item-done-{{item.done}} todoItem">
+          <paper-button id="destroy" icon="delete" name="{{item.id}}" on-tap="destroyTodoItem">destroy</paper-button>
+          <div class$="item-done-{{item.done}} todoItemDelete">
             {{item.item}}
           </div>
           <div id="dateDiv">{{item.date}}</div>
@@ -69,12 +63,6 @@
   <script>
     class MyDeleted extends Polymer.Element {
       static get is() { return 'my-deleted'; }
-
-      putDone(e) {
-        var model = e.model;
-        this.$.putTodo.body = e.model.item;
-        this.$.putTodo.generateRequest();
-      }
 
       unDelete(e) {
         var model = e.model;

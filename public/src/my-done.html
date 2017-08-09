@@ -11,12 +11,12 @@
         padding: 10px;
       }
     </style>
-    <iron-ajax id="getDoneTodo" url="/todos/done" method="get" params="" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="getDoneTodo" url="/todos/done" method="get" params='' handle-as="json" last-response="{{response}}" auto></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body='' content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
       <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
-      <paper-button toggles="" raised="">Search</paper-button>
+      <paper-button toggles raised>Search</paper-button>
     </div>
 
     <div class="card">
