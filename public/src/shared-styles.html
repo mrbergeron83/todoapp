@@ -39,8 +39,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 22px;
       }
 
+
+      paper-checkbox {
+        --paper-checkbox-size: 13px;
+      }
+
       .item-done-true {
         text-decoration: line-through;
+      }
+
+      #defLine {
+        display: block;
+        margin-top: 5px;
+        margin-bottom: 0px;
       }
 
       .todoItem {
@@ -50,6 +61,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         max-width: 50%;
         white-space: nowrap;
         text-overflow: ellipsis;
+        font-size: 12px;
+      }
+
+      #separator {
+        margin-top: 5px;
+        margin-bottom: 0;
+      }
+
+      .iconBlock {
+        display: inline-block;
       }
 
       .date {
@@ -67,10 +88,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #todoHeader {
         font-weight: 800;
         height: 30px;
+        font-size: 12px;
+      }
+
+      #dateSort {
+        float: right;
+        font-weight: bold;
+        font-size: 12px;
       }
 
       #dateDiv {
+        display: inline-block;
         float: right;
+        font-weight: bold;
+        font-size: 12px;
+        padding-top: 10px;
+        
       }
 
       #todoDiv {
@@ -85,8 +118,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 35px;
       }
 
+      #unDelete {
+        height: 35px;
+        width: 35px;
+      }
+
+      #destroy {
+        color: red;
+        font-weight: 800;
+      }
+
       #delete {
         color: brown;
+        height: 35px;
+        width: 35px;
+        padding-left: 0px;
       }
 
       .toastie {

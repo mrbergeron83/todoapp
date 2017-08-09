@@ -10,6 +10,8 @@
 
         padding: 10px;
       }
+
+      
     </style>
 
     <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
@@ -33,30 +35,31 @@
       <div id="todoHeader">
         <div class="todoHead">Done</div>
         <div class="todoHead" id="todoDiv">Todo</div>
-        <div class="todoHead" id="dateDiv">
+        <div class="todoHead" id="dateSort">
           Date
           <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>
         </div>
       </div>
-      <hr>
-    
+      
+      <hr id="separator">
 
-
-
-    <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
-      <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
-      <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
-      <div class$="item-done-{{item.done}} todoItem">
-            {{item.item}}          
+      <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
+        <div id="itemBlock">
+          <div class="iconBlock">
+            <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
           </div>
-         
-      <div class="date">{{item.date}}</div>
-      <div>
-        <hr>
-    </div></template>
-    </div>   
-    
+          <div class="iconBlock">
+            <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+          </div>
+          <div class$="item-done-{{item.done}} todoItem">
+            {{item.item}}
+          </div>
 
+          <div id="dateDiv">{{item.date}}</div>
+
+        </div>
+      </template>
+    </div>
   </template>
 
   <script>
@@ -66,7 +69,7 @@
       ready() {
         super.ready();
         this.todoItem = { "item": "" };
-      }      
+      }
 
       handleClick() {
         if (this.$.submitTodo.value.length < 5) {
