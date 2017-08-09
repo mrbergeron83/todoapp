@@ -6,9 +6,7 @@ The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+--><link rel="import" href="../bower_components/polymer/polymer-element.html">
 
 <!-- shared styles for all views -->
 <dom-module id="shared-styles">
@@ -49,114 +47,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .item-done-true {
         text-decoration: line-through;
       }
-
-      #defLine {
-        display: block;
-        margin-top: 5px;
-        margin-bottom: 0px;
-      }
-
-      .todoItem {
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: middle;
-        max-width: 50%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-size: 12px;
-      }
-
-      .todoItemDelete {
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: middle;
-        max-width: 30%;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-size: 12px;
-      }
-
-      #separator {
-        margin-top: 5px;
-        margin-bottom: 0;
-      }
-
-      .iconBlock {
-        display: inline-block;
-      }
-
-      .date {
-        display: inline-block;
-        float: right;
-        margin-top: 20px;
-        font-size: 12px;
-        margin-right: 18px;
-      }
-
-      .todoHead {
-        display: inline;
-      }
-
-      #todoHeader {
-        font-weight: 800;
-        height: 30px;
-        font-size: 12px;
-      }
-
-      #dateSort {
-        margin-left: 75px;
-        font-weight: bold;
-        font-size: 12px;
-      }
-
-      #dateDiv {
-        display: inline-block;
-        float: right;
-        font-weight: bold;
-        font-size: 10px;
-        padding-top: 10px;
-        
-      }
-
-      #todoDiv {
-        margin-left: 43px;
-      }
-
-      #doneBox {
-        margin-left: 10px;
-      }
-
-      #sortButton {
-        
-        padding-right: 0;
-        padding-bottom: 0;
-      }
-
-      #unDelete {
-        height: 35px;
-        width: 35px;
-      }
-
-      #destroy {
-        color: red;
-        font-weight: 800;
-        font-size: 10px;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 0;
-        padding-right: 0;
-      }
-
-      #delete {
-        color: brown;
-        height: 35px;
-        width: 35px;
-        padding-left: 0px;
-      }
-
       .toastie {
         width: 100%;
         background-color: brown;
+      }
+
+      
+
+      hr {
+        margin: 0 0;
+      }
+
+      .padding-top {
+        padding-top: 20px;
+      }
+
+
+      .textRight {
+        text-align: right;
+      }
+
+      .textCenter {
+        text-align: center;
+      }
+
+      .doneLeft {
+        padding-left: 0px;
+      }
+
+      #sortButton {
+        height: 30px;
+        width: 30px;
+        padding: 0 0;
+        margin: 0 0;
+      }
+
+      #item-container {
+        font-size: 12px;
+      }
+
+      paper-icon-button#delete {
+        color: brown;        
       }
     </style>
   </template>

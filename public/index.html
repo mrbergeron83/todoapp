@@ -54,6 +54,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       const baseUrl = document.querySelector('base').href;
 
       // Load and register pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register(baseUrl + 'service-worker.js');
+        });
+      }
     </script>
 
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->

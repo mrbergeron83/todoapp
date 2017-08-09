@@ -31,7 +31,8 @@
     "web-animations-js": "web-animations/web-animations-js#^2.3.1",
     "paper-toast": "PolymerElements/paper-toast#^2.0.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
-    "paper-fab": "PolymerElements/paper-fab#^2.0.0"
+    "paper-fab": "PolymerElements/paper-fab#^2.0.0",
+    "granite-bootstrap": "LostInBrittany/granite-bootstrap#^3.3.7-5"
   },
   "resolutions": {
     "polymer": "^2.0.0-rc.3",

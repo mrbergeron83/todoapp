@@ -4,62 +4,58 @@
 
 <dom-module id="my-todolist">
   <template>
+    <style include="granite-bootstrap"></style>
     <style include="shared-styles">
        :host {
         display: block;
-
         padding: 10px;
       }
-
-      
     </style>
 
-    <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto></iron-ajax>
-    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body={{todoItem}} content-type="application/json" on-response="init"></iron-ajax>
-    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body='' content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="getUndeletedTodo" url="/todos/undeleted" method="get" handle-as="json" last-response="{{response}}" auto=""></iron-ajax>
+    <iron-ajax id="postTodo" url="/todos" method="POST" handles-as="json" body="{{todoItem}}" content-type="application/json" on-response="init"></iron-ajax>
+    <iron-ajax id="putTodo" url="/todos/update" method="PUT" handles-as="json" body="" content-type="application/json" on-response="init"></iron-ajax>
 
     <div class="card">
       <paper-toast id="toast" class="fit-top toastie" text="Be more specific...(Min 5 char.)"></paper-toast>
       <paper-toast id="toast2" class="fit-top toastie" text="Be less specific...(Max 50 char.)"></paper-toast>
       <div id="submitContainer">
 
-        <paper-textarea id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here"></paper-textareat>
-      </div>
+        <paper-textarea id="submitTodo" minlength="5" type="text" value="{{todoItem.item}}" label="Put your brain things in here">
+      </paper-textarea></div>
       <div>
-        <paper-button on-tap="handleClick" toggles raised>Submit</paper-button>
+        <paper-button on-tap="handleClick" toggles="" raised="">Submit</paper-button>
       </div>
       <paper-input id="searchBox" type="text" value="{{searchString}}" label="Search..."></paper-input>
     </div>
 
     <div class="card">
-      <div id="todoHeader">
-        <div class="todoHead">Done</div>
-        <div class="todoHead" id="todoDiv">Todo</div>
-        <div class="todoHead" id="dateSort">
-          <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick"></paper-icon-button>
-          Date          
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-10 textCenter">Todo</div>
+          <div class="col-xs-2 textRight">
+            <paper-icon-button id="sortButton" icon="arrow-drop-down" on-tap="sortClick">Date</paper-icon-button>
+          </div>
         </div>
       </div>
-      
-      <hr id="separator">
+      <hr>
 
       <template id="repeatTemplate" is="dom-repeat" items="{{response}}" filter="{{searchFilter(searchString)}}" sort="computeSorta">
-        <div id="itemBlock">
-          <div class="iconBlock">
-            <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+        <div id="item-container" class="container-fluid">
+          <div class="row padding-top">
+            <div class="col-xs-2">
+              <paper-checkbox id="doneBox" name="{{item.id}}" checked="{{item.done}}" on-change="putDone"></paper-checkbox>
+            </div>
+            <div class="col-xs-6 textCenter">{{item.item}}</div>
+            <div class="col-xs-4 textRight">
+              <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
+              {{item.date}}
+            </div>
           </div>
-          <div class="iconBlock">
-            <paper-icon-button id="delete" icon="delete" name="{{item.id}}" on-tap="deleteTodo"></paper-icon-button>
-          </div>
-          <div class$="item-done-{{item.done}} todoItem">
-            {{item.item}}
-          </div>
+          <hr>
+      </div></template>
 
-          <div id="dateDiv">{{item.date}}</div>
-
-        </div>
-      </template>
-    </div>
+      </div>
   </template>
 
   <script>
